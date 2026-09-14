@@ -1,0 +1,39 @@
+{
+  "metrics": [
+    {
+      "dimension": "Interpretability & Explainability (XAI)",
+      "pure_ann": "Low (Black-box weight matrices)",
+      "pure_fis": "High (Mamdani IF-THEN rules)",
+      "hybrid_neuro_fuzzy": "Optimal (Fuzzy Rules + Weighted Latent Confidence)",
+      "winner": "Hybrid Neuro-Fuzzy"
+    },
+    {
+      "dimension": "Pattern Recognition from Raw Questions",
+      "pure_ann": "High (Learns nonlinear symptom weights)",
+      "pure_fis": "None (Requires external manual aggregation)",
+      "hybrid_neuro_fuzzy": "High (End-to-end question feature representation)",
+      "winner": "Hybrid Neuro-Fuzzy"
+    },
+    {
+      "dimension": "Noise & Rating Ambiguity Tolerance",
+      "pure_ann": "87.4% boundary stability",
+      "pure_fis": "78.4% (Boundary step discontinuities)",
+      "hybrid_neuro_fuzzy": "86.0% (Smooth fuzzy membership transitions)",
+      "winner": "Hybrid Neuro-Fuzzy"
+    },
+    {
+      "dimension": "Average Inference Latency",
+      "pure_ann": "0.94 ms",
+      "pure_fis": "0.17 ms",
+      "hybrid_neuro_fuzzy": "1.19 ms",
+      "winner": "Pure ANN (Fastest), Hybrid fully real-time"
+    },
+    {
+      "dimension": "Clinical Justification Clarity",
+      "pure_ann": "Discrete class integer [0-4]",
+      "pure_fis": "Active rules (Avg 1.5)",
+      "hybrid_neuro_fuzzy": "Defuzzified Centroid Risk (0-100%) + Fired Rules (Avg 1.6)",
+      "winner": "Hybrid Neuro-Fuzzy"
+    }
+  ]
+}
