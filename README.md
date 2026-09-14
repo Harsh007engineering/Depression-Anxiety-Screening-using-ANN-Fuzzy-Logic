@@ -6,9 +6,10 @@
 [![Soft Computing](https://img.shields.io/badge/Soft%20Computing-ANN%20%2B%20Mamdani%20FIS-6366f1.svg)]()
 [![Clinical Standard](https://img.shields.io/badge/Psychometrics-DASS--21%20Standard-10b981.svg)]()
 [![Explainable AI](https://img.shields.io/badge/XAI-Rule--Level%20Explainability-ec4899.svg)]()
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED.svg?logo=docker&logoColor=white)]()
 
-> **University Soft Computing Course Project**  
-> An explainable clinical decision support system combining **Artificial Neural Networks (ANN)** and a **Mamdani Fuzzy Inference System (FIS)** for automated, transparent risk assessment of depression and anxiety based on the validated **DASS-21** inventory.
+> **Clinical Decision Support System | Soft Computing Capstone Project**  
+> An explainable, evidence-based psychological triage platform combining **Artificial Neural Networks (ANN)** for non-linear latent feature extraction with a **Mamdani Fuzzy Inference System (FIS)** for transparent, rule-grounded clinical risk assessment based on the validated **DASS-21** psychometric inventory.
 
 ---
 
@@ -20,25 +21,26 @@
   - [Stage 2: Mamdani Fuzzy Inference System (FIS)](#stage-2-mamdani-fuzzy-inference-system-fis)
 - [4. Psychometric Foundation (DASS-21)](#4-psychometric-foundation-dass-21)
 - [5. Soft Computing Comparative Benchmark](#5-soft-computing-comparative-benchmark)
-- [6. Web Application Features](#6-web-application-features)
+- [6. Web Application & UI/UX Features](#6-web-application--uiux-features)
 - [7. Project Directory Structure](#7-project-directory-structure)
 - [8. Installation & Quickstart](#8-installation--quickstart)
-- [9. REST API Reference (Swagger)](#9-rest-api-reference-swagger)
-- [10. Viva / Presentation Guide](#10-viva--presentation-guide)
+- [9. Docker & Production Cloud Deployment](#9-docker--production-cloud-deployment)
+- [10. REST API Reference (Swagger)](#10-rest-api-reference-swagger)
+- [11. Comprehensive Viva / Defense Guide](#11-comprehensive-viva--defense-guide)
 
 ---
 
 ## 1. Motivation & Problem Formulation
 
-In clinical psychology, self-assessment inventories like the **DASS-21 (Depression, Anxiety, and Stress Scale)** capture subjective human distress. These evaluations inherently suffer from:
-1. **Linguistic Vagueness & Imprecision**: The boundary between feeling "mildly depressed" and "moderately depressed" is continuous, subjective, and prone to individual rating bias.
-2. **Non-Linear Symptom Interaction**: Psychological disorders are co-morbid. For instance, autonomic somatic anxiety interacts non-linearly with insomnia and depressive dysphoria.
-3. **The "Black-Box" Dilemma in Clinical AI**: Deep neural networks can achieve high classification accuracy, but cannot provide transparent clinical explanations, making them untrustworthy for medical triaging.
+In clinical psychology and psychiatry, self-assessment questionnaires like the **DASS-21 (Depression, Anxiety, and Stress Scale)** capture subjective human affect. These assessments pose fundamental challenges for traditional computing:
+1. **Linguistic Vagueness & Imprecision**: The boundary between feeling "mildly depressed" and "moderately depressed" is continuous and fuzzy. Standard crisp cutoffs create artificial step jumps for patients right on the boundary.
+2. **Non-Linear Symptom Interaction**: Psychological disorders are strongly co-morbid. For instance, severe autonomic physical anxiety compounds sleep loss and depressive dysphoria in complex, non-additive cascades.
+3. **The "Black-Box" Dilemma in Clinical AI**: Deep neural networks can achieve high statistical accuracy, but cannot provide transparent clinical justifications, rendering them untrustworthy for clinical decisions.
 
 ### The Neuro-Fuzzy Solution
-Our architecture combines the pattern learning power of ANNs with the transparent reasoning of Fuzzy Logic:
-- **ANN (Multi-Layer Perceptron)**: Operates on empirical 21-item responses, learning latent symptom representations with **>98% accuracy** and **0.06 MAE**.
-- **Mamdani Fuzzy Inference System (FIS)**: Applies 5 linguistic terms, a 30-rule clinical knowledge base, and **Centroid Defuzzification** to calculate a smooth, continuous **Risk Index (0-100%)** alongside **Explainable AI (XAI)** rule justifications.
+Our architecture unifies the empirical feature-learning capability of ANNs with the transparent reasoning of Fuzzy Logic:
+- **ANN (Multi-Layer Perceptron)**: Operates on 21 survey responses, learning latent symptom representations with **>98% accuracy** and **0.06 MAE**.
+- **Mamdani Fuzzy Inference System (FIS)**: Employs linguistic variables, a 30-rule clinical knowledge base, and **Centroid Defuzzification** to compute a continuous **Risk Index (0-100%)** alongside **Explainable AI (XAI)** rule justifications.
 
 ---
 
@@ -47,10 +49,11 @@ Our architecture combines the pattern learning power of ANNs with the transparen
 ```
 ┌──────────────────────────────────────────────────────────────────┐
 │                   Modern Interactive Web Frontend                │
-│  • 21-Item DASS-21 Guided Assessment Wizard                      │
+│  • 21-Item DASS-21 Guided Assessment Wizard with Progress Bar   │
 │  • Contextual Lifestyle / Environmental Stressor Slider (0-10)   │
-│  • Centroid Defuzzified Risk Dial Gauge & Chart.js Radar Profile │
-│  • Explainable AI: Active Fuzzy Rules & Membership Curve Views   │
+│  • Dual Light / Dark Theme Toggle (Persistent Preference)        │
+│  • SVG Circular Triage Risk Gauge & Chart.js Radar Profile       │
+│  • Explainable AI (XAI): Active Mamdani Rules & Live Curves      │
 └─────────────────────────────────┬────────────────────────────────┘
                                   │ HTTP POST /api/screen
                                   ▼
@@ -75,7 +78,7 @@ Our architecture combines the pattern learning power of ANNs with the transparen
 ## 3. Soft Computing Mathematical Formulations
 
 ### Stage 1: Multi-Layer Perceptron (ANN)
-The ANN maps the discrete response vector to continuous latent psychological risk projections:
+The ANN maps discrete survey responses to continuous latent psychological projections:
 - **Input Vector**: $X = [x_1, x_2, \dots, x_{21}] \in \{0, 1, 2, 3\}^{21}$
 - **Z-Score Normalization**: $z_i = \frac{x_i - \mu_i}{\sigma_i}$
 - **Hidden Layer 1**: $h_1 = \text{ReLU}(W_1 z + b_1)$, where $W_1 \in \mathbb{R}^{64 \times 21}$
@@ -103,7 +106,7 @@ The FIS converts continuous symptom scores into transparent linguistic risk tria
 
 ## 4. Psychometric Foundation (DASS-21)
 
-The DASS-21 is an internationally recognized clinical inventory consisting of 21 self-report items (7 Depression, 7 Anxiety, 7 Stress). Multiplied by 2 to align with full DASS-42 clinical cutoffs:
+The DASS-21 is an internationally validated clinical inventory consisting of 21 self-report items (7 Depression, 7 Anxiety, 7 Stress). Multiplied by 2 to align with full DASS-42 clinical cutoffs:
 
 | Severity Level | Depression (0-42) | Anxiety (0-42) | Stress (0-42) | Clinical Interpretation |
 | :--- | :--- | :--- | :--- | :--- |
@@ -134,33 +137,40 @@ A rigorous comparative evaluation conducted on **1,000 test cases** under **15% 
 
 ---
 
-## 6. Web Application Features
+## 6. Web Application & UI/UX Features
 
-1. **Interactive Guided Questionnaire**:
+1. **Light & Dark Theme Toggle**:
+   - Seamless switching between deep slate dark mode and clean clinical white light mode.
+   - Saves preference in `localStorage` and respects system `prefers-color-scheme`.
+   - Charts dynamically adapt gridlines, labels, and ticks for optimal contrast.
+2. **Interactive Guided Questionnaire**:
    - 21 items divided into All, Depression, Anxiety, and Stress tabs.
    - 4-point Likert buttons (*Never, Sometimes, Often, Almost Always*).
-   - Real-time response tracking.
-2. **Contextual Environmental Stressor Slider**:
-   - Accounts for exams, burnout, and acute external triggers ($0.0 - 10.0$).
-3. **Animated Speedometer Risk Gauge**:
-   - Displays defuzzified Risk Index ($0-100\%$) and color-coded triage tier:
+   - Real-time progress bar: `21 / 21 Answered (100%)`.
+3. **Contextual Environmental Stressor Slider**:
+   - Accounts for exams, workload, and acute external strain ($0.0 - 10.0$).
+4. **Animated Circular SVG Speedometer Gauge**:
+   - Displays defuzzified Risk Index ($0-100\%$) with dynamic SVG circular stroke sweep and color coding:
      - 🟢 *Minimal Risk* ($<25\%$)
      - 🔵 *Mild Vulnerability* ($25-44\%$)
      - 🟡 *Moderate Concern* ($45-67\%$)
      - 🟠 *High Risk / Severe* ($68-84\%$)
      - 🔴 *Critical Priority* ($\ge 85\%$)
-4. **Chart.js Psychological Radar Profile**:
-   - Real-time spider chart comparing Depression vs. Anxiety vs. Stress against clinical danger baselines.
-5. **Explainable AI (XAI) Rule Feed**:
-   - Displays exact Mamdani rules triggered with their firing weights ($\alpha$).
-6. **Quick Viva Demo Personas**:
-   - Single-click simulations for:
-     - **Alex**: Resilient Baseline (Healthy)
-     - **Jordan**: Acute Exam Anxiety & Tension (Moderate)
-     - **Taylor**: Severe Clinical Depression (High Risk)
-     - **Morgan**: Dual Psychiatric Crisis (Critical)
-7. **Printable Summary Report**:
-   - Instant print-ready diagnostic intake sheet for healthcare professionals.
+5. **Chart.js Psychological Radar Profile**:
+   - Real-time spider chart comparing Depression vs. Anxiety vs. Stress against clinical threshold baselines.
+6. **Fuzzy Membership Functions with Live Patient Marker**:
+   - Interactive visualizer displaying triangular and trapezoidal term curves.
+   - Includes **a dynamic score pin** highlighting where the patient's score lands on the fuzzy membership curves.
+7. **Explainable AI (XAI) Rule Feed**:
+   - Displays exact Mamdani rules triggered with their firing weights ($\alpha_k$).
+8. **Clinically Calibrated Personas**:
+   - Single-click simulations mapping to distinct clinical triage tiers:
+     - **Alex**: Resilient Baseline $\rightarrow$ 🟢 Minimal Risk (10.2%)
+     - **Jordan**: Exam Tension & Anxiety $\rightarrow$ 🟡 Moderate Concern (51.6%)
+     - **Taylor**: Severe Clinical Depression $\rightarrow$ 🟠 High Risk / Severe (74.2%)
+     - **Morgan**: Acute Psychiatric Crisis $\rightarrow$ 🔴 Critical Priority (92.2%)
+9. **Printable Summary Report**:
+   - Instant print-ready diagnostic intake sheet for clinicians and health centers.
 
 ---
 
@@ -168,12 +178,18 @@ A rigorous comparative evaluation conducted on **1,000 test cases** under **15% 
 
 ```
 mental-health-screening/
+├── Dockerfile                         # Multi-stage production container
+├── docker-compose.yml                 # One-command container orchestration
+├── Procfile                           # Cloud platform deployment (Render/Railway)
+├── .gitignore                         # Git exclusion rules
+├── README.md                          # Comprehensive documentation
+│
 ├── backend/
 │   ├── app/
 │   │   ├── api/
 │   │   │   └── routes.py              # REST API route handlers
 │   │   ├── core/
-│   │   │   ├── config.py              # Absolute path configurations
+│   │   │   ├── config.py              # Path configurations
 │   │   │   ├── constants.py           # DASS-21 items & clinical cutoffs
 │   │   │   └── schemas.py             # Pydantic request/response schemas
 │   │   ├── models/
@@ -190,20 +206,18 @@ mental-health-screening/
 │   │   ├── benchmark_results.json     # Benchmark evaluation metrics
 │   │   └── training_summary.json      # Training metrics summary
 │   ├── requirements.txt               # Backend dependencies
-│   ├── test_server.py                 # Automated 6-point integration test suite
+│   ├── test_server.py                 # Automated server integration test
+│   ├── test_all_features.py           # Comprehensive 9-point live test suite
 │   └── run_server.py                  # One-click web server runner
 │
-├── frontend/
-│   ├── index.html                     # Responsive web dashboard
-│   ├── css/
-│   │   └── styles.css                 # Modern healthcare glassmorphism styling
-│   └── js/
-│       ├── api.js                     # REST API client
-│       ├── charts.js                  # Chart.js radar & fuzzy curves visualizers
-│       └── wizard.js                  # Questionnaire controller & persona logic
-│
-├── .gitignore                         # Git ignore rules
-└── README.md                          # Project documentation
+└── frontend/
+    ├── index.html                     # Responsive web dashboard UI
+    ├── css/
+    │   └── styles.css                 # Dual-theme glassmorphism styling
+    └── js/
+        ├── api.js                     # REST API client
+        ├── charts.js                  # Chart.js radar & fuzzy curves visualizers
+        └── wizard.js                  # Questionnaire controller & persona logic
 ```
 
 ---
@@ -234,11 +248,35 @@ python backend/run_server.py
 - **Web Dashboard**: [http://localhost:8000](http://localhost:8000)
 - **Interactive Swagger API Docs**: [http://localhost:8000/docs](http://localhost:8000/docs)
 
+### 5. Run Automated Tests
+```bash
+python backend/test_all_features.py
+```
+
 ---
 
-## 9. REST API Reference (Swagger)
+## 9. Docker & Production Cloud Deployment
 
-FastAPI automatically provides interactive Swagger UI at `http://localhost:8000/docs`:
+### Option A: Run with Docker Compose
+```bash
+docker compose up --build
+```
+Access the application at `http://localhost:8000`.
+
+### Option B: Deploy to Render / Railway / Fly.io
+1. Push this repository to your GitHub.
+2. In **Render** or **Railway**, create a new **Web Service** pointing to your repository.
+3. Configure settings:
+   - **Environment**: Python 3
+   - **Build Command**: `pip install -r backend/requirements.txt`
+   - **Start Command**: `cd backend && uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+4. The service will automatically build and deploy with full HTTPS.
+
+---
+
+## 10. REST API Reference (Swagger)
+
+FastAPI automatically provides interactive Swagger documentation at `http://localhost:8000/docs`:
 
 | Method | Endpoint | Description |
 | :--- | :--- | :--- |
@@ -251,22 +289,36 @@ FastAPI automatically provides interactive Swagger UI at `http://localhost:8000/
 
 ---
 
-## 10. Viva / Presentation Guide
+## 11. Comprehensive Viva / Defense Guide
 
-When presenting this project to evaluators, highlight these soft computing aspects:
+When defending this project during an academic viva or evaluation, refer to these key points:
 
-1. **Why not pure ANN?**  
-   Pure ANNs are black boxes. A clinician cannot verify why a patient was classified as "Severe". In our system, the ANN handles feature learning, while the Fuzzy Logic system produces transparent rule activations.
-2. **Why not pure Fuzzy Logic?**  
-   Pure Fuzzy Logic cannot learn latent question weights from empirical data without manual rule tuning. The ANN learns nonlinear relationships directly from responses.
-3. **How does Centroid Defuzzification work?**  
-   Centroid defuzzification computes the center of gravity of the combined clipped output fuzzy sets:  
-   $z^* = \frac{\int z \mu(z) dz}{\int \mu(z) dz}$. It guarantees smooth, continuous risk transitions without abrupt step changes.
-4. **Demonstrating XAI Live**:  
-   Click *Taylor (Severe Depression)* on the web UI, scroll down to **Active Fuzzy Rules**, and show how Rule 16 (*Severe clinical depression with vegetative symptoms*) and Rule 18 fired with specific degree weights ($\alpha$).
+### 1. Why use a Hybrid Neuro-Fuzzy System instead of Pure Deep Learning?
+- **Explainability**: In healthcare, clinicians cannot trust black-box neural networks. While ANNs excel at finding latent non-linear correlations across questionnaire items, they cannot explain *why* a decision was reached.
+- **Rule Transparency**: The Mamdani FIS provides explicit IF-THEN rules (e.g., *"IF Depression is Severe AND Anxiety is Moderate THEN Triage Tier is Severe"*).
+
+### 2. Why not use Pure Fuzzy Logic without an ANN?
+- **Manual Parameter Tuning**: Pure fuzzy inference requires an expert to manually tune every membership curve and weight for 21 separate inputs ($3^{21}$ rules would cause combinatorial explosion).
+- **Latent Feature Learning**: The ANN condenses the 21 questions into calibrated continuous subscale projections, learning item-specific severity weights directly from psychometric data.
+
+### 3. How does Centroid Defuzzification work?
+- Centroid defuzzification computes the Center of Gravity of the aggregated output fuzzy set:  
+  $$z^* = \frac{\int_0^{100} y \cdot \mu_{agg}(y) \, dy}{\int_0^{100} \mu_{agg}(y) \, dy}$$
+- Unlike maximum-membership or mean-of-maxima methods, the Centroid method guarantees **continuous, smooth risk index transitions** ($0.0\% - 100.0\%$) without discrete jumps.
+
+### 4. What is the difference between Mamdani and Sugeno FIS?
+- **Mamdani**: Output consequents are fuzzy sets (e.g., *Minimal, Mild, Severe*). It provides superior human interpretability, which is vital for medical applications.
+- **Sugeno (TSK)**: Output consequents are linear mathematical functions of inputs ($y = c_0 + c_1 x_1 + \dots$). It is computationally compact but lacks linguistic explainability.
+
+### 5. How to conduct the live viva demo:
+1. Open the web UI at `http://localhost:8000`.
+2. Click **Jordan (Exam Tension & Anxiety)**: Show the evaluator how the gauge lands at **51.6% (Moderate Concern)**.
+3. Scroll down to **Explainable AI (XAI)**: Point out the exact rule fired and its degree of fulfillment ($\alpha = 0.50$).
+4. Click **Taylor (Severe Depression)**: Show the gauge rise to **74.2% (High Risk / Severe)** and point out the psychological radar profile shifting heavily toward Depression.
+5. Click **View Comparative Study**: Walk the evaluator through the **Pure ANN vs Pure FIS vs Hybrid** table to prove academic rigor.
 
 ---
 
 ## 👥 Authors
-- Developed for University Soft Computing Course
-- GitHub: [@Harsh007engineering](https://github.com/Harsh007engineering)
+- **Harsh** ([@Harsh007engineering](https://github.com/Harsh007engineering))
+- Soft Computing Course Project
