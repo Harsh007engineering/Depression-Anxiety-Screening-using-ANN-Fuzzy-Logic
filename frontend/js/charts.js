@@ -129,6 +129,37 @@ export function initFuzzyCurvesChart(canvasId, visualsData, currentSubscale = 'd
     tension: 0.1
   }));
 
+  // Add Patient Score Marker line/point
+  if (currentPatientScore !== undefined && currentPatientScore !== null) {
+    const clampedScore = Math.max(0, Math.min(42, currentPatientScore));
+    // Find closest index in xLabels
+    let closestIdx = 0;
+    let minDiff = 999;
+    xLabels.forEach((x, i) => {
+      const diff = Math.abs(x - clampedScore);
+      if (diff < minDiff) {
+        minDiff = diff;
+        closestIdx = i;
+      }
+    });
+
+    const markerData = new Array(xLabels.length).fill(null);
+    markerData[closestIdx] = 1.0;
+
+    datasets.push({
+      label: `Patient Score: ${clampedScore.toFixed(1)} pt`,
+      data: markerData,
+      borderColor: '#ec4899',
+      backgroundColor: '#ec4899',
+      pointBackgroundColor: '#ffffff',
+      pointBorderColor: '#ec4899',
+      pointBorderWidth: 3,
+      pointRadius: 8,
+      pointHoverRadius: 10,
+      showLine: false
+    });
+  }
+
   if (fuzzyChartInstance) {
     fuzzyChartInstance.destroy();
   }

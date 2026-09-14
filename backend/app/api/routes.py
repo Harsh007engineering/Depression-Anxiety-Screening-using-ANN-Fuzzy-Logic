@@ -95,34 +95,34 @@ def get_benchmark():
 
 @router.get("/personas")
 def get_preset_personas():
-    """Returns realistic pre-configured personas for quick viva/demo presentations."""
+    """Returns clinically calibrated pre-configured personas for live viva demonstrations."""
     return [
         {
             "id": "healthy",
-            "name": "Alex - Resilient Baseline",
-            "subtitle": "Healthy adaptive functioning with minimal distress",
-            "contextual_stress": 1.0,
-            "responses": [0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            "name": "Alex — Resilient Baseline",
+            "subtitle": "Healthy adaptive functioning with minimal situational distress",
+            "contextual_stress": 0.5,
+            "responses": [0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         },
         {
             "id": "exam_stress",
-            "name": "Jordan - Acute Exam Anxiety & Tension",
-            "subtitle": "High situational stress and moderate autonomic anxiety",
-            "contextual_stress": 7.0,
-            "responses": [2, 1, 0, 2, 1, 3, 2, 3, 2, 0, 2, 3, 1, 2, 2, 0, 0, 2, 2, 2, 0]
+            "name": "Jordan — Exam Tension & Anxiety",
+            "subtitle": "Noticeable situational pressure and moderate autonomic anxiety",
+            "contextual_stress": 2.0,
+            "responses": [1, 1, 0, 1, 0, 2, 1, 2, 1, 0, 1, 2, 0, 1, 1, 0, 0, 1, 1, 1, 0]
         },
         {
             "id": "clinical_depression",
-            "name": "Taylor - Severe Clinical Depression",
-            "subtitle": "Marked anhedonia, hopelessness, inertia, with moderate anxiety",
-            "contextual_stress": 8.5,
-            "responses": [2, 1, 3, 1, 3, 2, 1, 2, 1, 3, 1, 2, 3, 1, 1, 3, 3, 1, 1, 1, 3]
+            "name": "Taylor — Severe Clinical Depression",
+            "subtitle": "Marked anhedonia, hopelessness, and inertia with moderate anxiety",
+            "contextual_stress": 4.0,
+            "responses": [1, 1, 2, 1, 2, 1, 0, 1, 1, 2, 1, 1, 2, 1, 1, 2, 1, 0, 1, 0, 1]
         },
         {
             "id": "critical_crisis",
-            "name": "Morgan - Dual Acute Psychiatric Crisis",
-            "subtitle": "Extremely severe distress across depression, panic, and exhaustion",
-            "contextual_stress": 10.0,
+            "name": "Morgan — Acute Psychiatric Crisis",
+            "subtitle": "Maximum acute clinical distress across depression, panic, and burnout",
+            "contextual_stress": 9.0,
             "responses": [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3]
         }
     ]

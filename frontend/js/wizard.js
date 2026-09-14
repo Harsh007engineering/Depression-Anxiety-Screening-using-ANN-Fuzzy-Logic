@@ -11,6 +11,7 @@ let responses = new Array(21).fill(0);
 let fuzzyVisualsData = null;
 let currentTab = 'all';
 let activePersonaId = null;
+let latestScores = { depression: 0, anxiety: 0, stress: 0 };
 
 document.addEventListener('DOMContentLoaded', async () => {
   initTheme();
@@ -71,7 +72,7 @@ function applyTheme(theme) {
   refreshChartsTheme();
   if (fuzzyVisualsData) {
     const subscale = document.getElementById('fuzzySubscaleSelect').value;
-    initFuzzyCurvesChart('fuzzyCanvas', fuzzyVisualsData, subscale);
+    initFuzzyCurvesChart('fuzzyCanvas', fuzzyVisualsData, subscale, latestScores[subscale]);
   }
 }
 
@@ -105,7 +106,8 @@ function setupEventListeners() {
   // Fuzzy curve subscale select dropdown
   document.getElementById('fuzzySubscaleSelect').addEventListener('change', (e) => {
     if (fuzzyVisualsData) {
-      initFuzzyCurvesChart('fuzzyCanvas', fuzzyVisualsData, e.target.value);
+      const subscale = e.target.value;
+      initFuzzyCurvesChart('fuzzyCanvas', fuzzyVisualsData, subscale, latestScores[subscale]);
     }
   });
 
@@ -317,6 +319,18 @@ async function handleScreening() {
     updateSubscaleBox('dep', ann.depression);
     updateSubscaleBox('anx', ann.anxiety);
     updateSubscaleBox('str', ann.stress);
+
+    latestScores = {
+      depression: ann.depression.score,
+      anxiety: ann.anxiety.score,
+      stress: ann.stress.score
+    };
+
+    // Refresh fuzzy curves with patient marker
+    if (fuzzyVisualsData) {
+      const subscale = document.getElementById('fuzzySubscaleSelect').value;
+      initFuzzyCurvesChart('fuzzyCanvas', fuzzyVisualsData, subscale, latestScores[subscale]);
+    }
 
     // 3. Update Chart.js Radar Profile
     updateRadarChart(ann.depression.score, ann.anxiety.score, ann.stress.score);
