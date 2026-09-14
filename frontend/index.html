@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NeuroFuzzy Screen — Depression & Anxiety Assessment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/styles.css">
+  <!-- Chart.js for Radar & Fuzzy Curves -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <div class="badge-pill">
+        <span>🧠 Soft Computing University Course Project</span>
+      </div>
+      <h1>Depression & Anxiety Screening Platform</h1>
+      <p class="subtitle">
+        A hybrid neuro-fuzzy clinical screening system synergizing <strong>Artificial Neural Networks (ANN)</strong> 
+        for high-dimensional latent symptom extraction with <strong>Mamdani Fuzzy Inference (FIS)</strong> for transparent, explainable triage risk assessment.
+      </p>
+      <div class="tech-tags">
+        <span class="tech-tag">Mamdani FIS</span>
+        <span class="tech-tag">Multi-Layer Perceptron (MLP)</span>
+        <span class="tech-tag">Centroid Defuzzification</span>
+        <span class="tech-tag">DASS-21 Standard</span>
+        <span class="tech-tag">FastAPI Backend</span>
+        <span class="tech-tag">Explainable AI (XAI)</span>
+      </div>
+    </header>
+
+    <!-- Quick Persona Demonstration -->
+    <section class="persona-section">
+      <div class="persona-header">
+        <span>⚡ Quick Viva Demo Personas (Click to auto-simulate):</span>
+      </div>
+      <div class="persona-grid" id="personaGrid">
+        <!-- Injected via wizard.js -->
+      </div>
+    </section>
+
+    <!-- Main Grid -->
+    <div class="main-grid">
+      <!-- Left: Interactive DASS-21 Questionnaire -->
+      <section class="glass-card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+          <h2 style="font-size:1.25rem; font-weight:700;">DASS-21 Clinical Inventory</h2>
+          <span style="font-size:0.8rem; color:#94a3b8;">4-Point Likert Rating</span>
+        </div>
+
+        <!-- Subscale Tabs -->
+        <div class="subscale-tabs">
+          <button type="button" class="tab-btn active" data-tab="all">All Items (21)</button>
+          <button type="button" class="tab-btn" data-tab="depression">Depression</button>
+          <button type="button" class="tab-btn" data-tab="anxiety">Anxiety</button>
+          <button type="button" class="tab-btn" data-tab="stress">Stress</button>
+        </div>
+
+        <!-- Questions List -->
+        <div id="questionsContainer" style="max-height: 520px; overflow-y: auto; padding-right: 0.5rem;">
+          <!-- Injected via wizard.js -->
+        </div>
+
+        <!-- Contextual Stressor Slider -->
+        <div class="slider-group">
+          <div class="slider-label">
+            <span>Contextual Environmental Stressor (Exam/Workload Impact):</span>
+            <span id="stressSliderVal" style="color:#818cf8; font-weight:700;">0.0</span>
+          </div>
+          <input type="range" id="stressSlider" min="0" max="10" step="0.5" value="0">
+          <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:#64748b; margin-top:0.25rem;">
+            <span>0: Negligible External Strain</span>
+            <span>5: Moderate Workload</span>
+            <span>10: Incapacitating Crisis</span>
+          </div>
+        </div>
+
+        <!-- Primary Action -->
+        <button type="button" class="btn-primary" id="analyzeBtn">
+          <span>🚀 Run Neuro-Fuzzy Assessment</span>
+        </button>
+      </section>
+
+      <!-- Right: Diagnostic Triage Dashboard -->
+      <section class="glass-card">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+          <h2 style="font-size:1.25rem; font-weight:700;">Diagnostic Evaluation</h2>
+          <button type="button" id="printReportBtn" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.1); color:#cbd5e1; padding:0.3rem 0.75rem; border-radius:6px; font-size:0.75rem; cursor:pointer;">
+            🖨️ Print Summary
+          </button>
+        </div>
+
+        <!-- Defuzzified Triage Risk Gauge -->
+        <div class="risk-gauge-card">
+          <div class="gauge-dial" id="gaugeDial">
+            <span class="gauge-number" id="gaugeVal">0%</span>
+            <span class="gauge-label">Risk Index</span>
+          </div>
+          <div class="triage-badge" id="triageBadge">Minimal Risk</div>
+          <div style="font-size:0.75rem; color:#94a3b8;">Defuzzified via Centroid Method \(z^* = \frac{\int z \mu(z) dz}{\int \mu(z) dz}\)</div>
+        </div>
+
+        <!-- Score Triad Cards -->
+        <div class="score-triad">
+          <div class="subscore-box">
+            <div class="subscore-title">Depression</div>
+            <div class="subscore-val" id="depScoreVal">0/42</div>
+            <span class="subscore-tag" id="depLabelTag" style="background:rgba(99,102,241,0.2); color:#a5b4fc;">Normal</span>
+          </div>
+          <div class="subscore-box">
+            <div class="subscore-title">Anxiety</div>
+            <div class="subscore-val" id="anxScoreVal">0/42</div>
+            <span class="subscore-tag" id="anxLabelTag" style="background:rgba(6,182,212,0.2); color:#67e8f9;">Normal</span>
+          </div>
+          <div class="subscore-box">
+            <div class="subscore-title">Stress</div>
+            <div class="subscore-val" id="strScoreVal">0/42</div>
+            <span class="subscore-tag" id="strLabelTag" style="background:rgba(245,158,11,0.2); color:#fde68a;">Normal</span>
+          </div>
+        </div>
+
+        <!-- Interactive Radar Profile -->
+        <div style="position:relative; height: 210px; margin-bottom: 1.5rem;">
+          <canvas id="radarCanvas"></canvas>
+        </div>
+
+        <!-- Explainable Soft Computing: Fired Mamdani Rules -->
+        <div class="xai-section">
+          <div class="section-title">
+            <span>🔍 Explainable AI: Active Fuzzy Rules</span>
+          </div>
+          <div id="rulesList">
+            <!-- Injected via wizard.js -->
+          </div>
+        </div>
+
+        <!-- Action Plan & Recommendations -->
+        <div class="action-box">
+          <div class="action-title" id="actionTitle">Healthy State & Preventative Care</div>
+          <div class="action-text" id="actionText">Indicators within healthy bounds. Maintain regular sleep hygiene.</div>
+          <ul class="action-steps" id="actionSteps">
+            <li>Practice daily mindfulness</li>
+            <li>Maintain regular physical activity</li>
+          </ul>
+        </div>
+
+        <!-- Additional Academic Views -->
+        <div style="display:flex; gap:0.75rem; margin-top:1.25rem;">
+          <button type="button" id="openBenchmarkBtn" style="flex:1; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.15); color:#cbd5e1; padding:0.6rem; border-radius:var(--radius-md); font-size:0.8rem; font-weight:600; cursor:pointer;">
+            📊 Comparative Benchmark
+          </button>
+        </div>
+      </section>
+    </div>
+
+    <!-- Fuzzy Curves Visualizer Section -->
+    <section class="glass-card" style="margin-top: 2rem;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+        <div>
+          <h2 style="font-size:1.15rem; font-weight:700;">Fuzzy Membership Functions \(\mu_A(x)\)</h2>
+          <p style="font-size:0.8rem; color:#94a3b8;">Visual representation of Triangular and Trapezoidal fuzzy sets across the DASS universe</p>
+        </div>
+        <div>
+          <select id="fuzzySubscaleSelect" style="background:#1e293b; color:#cbd5e1; border:1px solid rgba(255,255,255,0.2); padding:0.4rem 0.8rem; border-radius:6px; font-size:0.85rem;">
+            <option value="depression">Depression Sets (0-42)</option>
+            <option value="anxiety">Anxiety Sets (0-42)</option>
+            <option value="stress">Stress Sets (0-42)</option>
+          </select>
+        </div>
+      </div>
+      <div style="position:relative; height:240px;">
+        <canvas id="fuzzyCanvas"></canvas>
+      </div>
+    </section>
+  </div>
+
+  <!-- Comparative Benchmark Modal -->
+  <div class="modal-overlay" id="benchmarkModal">
+    <div class="modal-content">
+      <button type="button" class="modal-close" id="closeBenchmarkBtn">&times;</button>
+      <h2 style="font-size:1.3rem; font-weight:800; margin-bottom:0.5rem;">Soft Computing Comparative Study</h2>
+      <p style="font-size:0.85rem; color:#94a3b8; margin-bottom:1.5rem;">
+        Rigorous benchmark evaluating <strong>Pure ANN</strong> vs. <strong>Pure Fuzzy Logic (FIS)</strong> vs. <strong>Hybrid Neuro-Fuzzy System</strong> across key computational and clinical metrics.
+      </p>
+
+      <table class="benchmark-table">
+        <thead>
+          <tr>
+            <th>Evaluation Dimension</th>
+            <th>Pure ANN</th>
+            <th>Pure FIS</th>
+            <th>Hybrid Neuro-Fuzzy</th>
+            <th>Verdict</th>
+          </tr>
+        </thead>
+        <tbody id="benchmarkTbody">
+          <!-- Injected via wizard.js -->
+        </tbody>
+      </table>
+
+      <div style="margin-top:1.5rem; background:rgba(79,70,229,0.1); border:1px solid rgba(79,70,229,0.25); border-radius:var(--radius-md); padding:1rem; font-size:0.82rem; color:#c7d2fe;">
+        <strong>Key Academic Finding:</strong> While Pure ANN demonstrates high statistical pattern extraction, it lacks diagnostic transparency. Pure FIS provides transparent reasoning but cannot weight question contributions dynamically. The <strong>Hybrid Neuro-Fuzzy architecture</strong> achieves the highest boundary stability (86.0%), real-time inference (1.19 ms), and complete explainable clinical justification.
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/static/js/wizard.js"></script>
+</body>
+</html>
