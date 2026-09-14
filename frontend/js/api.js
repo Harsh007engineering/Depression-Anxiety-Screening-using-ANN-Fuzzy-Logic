@@ -1,11 +1,5 @@
-/**
- * API Client Module for NeuroFuzzy Screening Platform
- * Focus: Depression & Anxiety Screening using ANN & Fuzzy Logic
- */
-
-const API_BASE = window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1')
-  ? '' 
-  : 'http://127.0.0.1:8000';
+// Universal relative API base path: works on localhost, Railway, Docker, and any domain
+const API_BASE = '';
 
 export async function fetchQuestions() {
   const res = await fetch(`${API_BASE}/api/questions`);
