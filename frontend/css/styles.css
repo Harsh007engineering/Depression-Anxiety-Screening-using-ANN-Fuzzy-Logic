@@ -96,6 +96,12 @@
   transition: background-color 0.25s ease, border-color 0.25s ease, color 0.2s ease;
 }
 
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+  width: 100%;
+}
+
 body {
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background: var(--bg-app);
@@ -176,6 +182,14 @@ body {
   background: var(--color-normal-bg);
   border: 1px solid rgba(16, 185, 129, 0.3);
   color: var(--color-normal);
+}
+
+.status-text-desktop {
+  display: inline;
+}
+
+.status-text-mobile {
+  display: none;
 }
 
 .status-dot {
@@ -985,6 +999,24 @@ body {
   font-family: 'JetBrains Mono', monospace, sans-serif;
 }
 
+.fuzzy-controls-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.fuzzy-select-dropdown {
+  background: var(--surface-inner);
+  color: var(--text-main);
+  border: 1px solid var(--border-subtle);
+  padding: 0.45rem 0.9rem;
+  border-radius: 8px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  outline: none;
+  cursor: pointer;
+}
+
 /* --------------------------------------------------------------------------
    Modal Window (Benchmark)
    -------------------------------------------------------------------------- */
@@ -1039,10 +1071,17 @@ body {
   border-color: var(--border-active);
 }
 
+.benchmark-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-top: 1.25rem;
+}
+
 .benchmark-table {
   width: 100%;
+  min-width: 520px;
   border-collapse: collapse;
-  margin-top: 1.25rem;
   font-size: 0.85rem;
 }
 
@@ -1061,6 +1100,343 @@ body {
 
 .benchmark-table tr:hover {
   background: var(--surface-card-hover);
+}
+
+/* --------------------------------------------------------------------------
+   Mobile & Tablet Responsive Breakpoints
+   -------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+  .hero-title {
+    font-size: 2.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0.75rem 1rem;
+  }
+
+  .brand-title {
+    font-size: 1.05rem;
+  }
+
+  .brand-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .container {
+    padding: 1.25rem 0.9rem;
+  }
+
+  .glass-card {
+    padding: 1.25rem 1rem;
+    border-radius: 16px;
+  }
+
+  .hero-section {
+    margin-bottom: 1.75rem;
+  }
+
+  .hero-title {
+    font-size: clamp(1.6rem, 5.5vw, 2rem);
+  }
+
+  .hero-subtitle {
+    font-size: 0.92rem;
+    margin-bottom: 1.15rem;
+  }
+
+  .hero-badges {
+    gap: 0.4rem;
+  }
+
+  .tech-tag {
+    font-size: 0.72rem;
+    padding: 0.25rem 0.55rem;
+  }
+
+  /* Horizontal swipe tabs for mobile wizard */
+  .subscale-tabs {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 0.25rem;
+    gap: 0.35rem;
+  }
+
+  .subscale-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tab-btn {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  .questions-scroll-area {
+    max-height: 480px;
+    padding-right: 0.25rem;
+  }
+
+  .question-item {
+    padding: 0.95rem;
+  }
+
+  .question-header {
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .question-text {
+    font-size: 0.88rem;
+  }
+
+  .likert-options {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.45rem;
+  }
+
+  .likert-btn {
+    padding: 0.65rem 0.35rem;
+    min-height: 48px;
+    font-size: 0.78rem;
+    touch-action: manipulation;
+  }
+
+  /* Fuzzy viz header stacking */
+  .fuzzy-header-flex {
+    flex-direction: column;
+    align-items: stretch !important;
+    gap: 0.85rem;
+  }
+
+  .fuzzy-controls-row {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .fuzzy-select-dropdown {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .fuzzy-chart-box {
+    height: 220px;
+    padding: 0.85rem;
+  }
+
+  .radar-chart-container {
+    height: 220px;
+    padding: 0.85rem;
+  }
+
+  /* Benchmark Modal */
+  .modal-overlay {
+    padding: 0.85rem;
+  }
+
+  .modal-content {
+    padding: 1.5rem 1.15rem;
+    border-radius: 16px;
+  }
+
+  .modal-close-btn {
+    top: 1rem;
+    right: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .status-text-desktop {
+    display: none;
+  }
+
+  .status-text-mobile {
+    display: inline;
+  }
+
+  .nav-actions {
+    gap: 0.45rem;
+  }
+
+  .nav-btn-text {
+    display: none;
+  }
+
+  .nav-link-btn {
+    padding: 0.4rem 0.6rem;
+  }
+
+  .brand-title {
+    font-size: 0.98rem;
+  }
+
+  .container {
+    padding: 0.85rem 0.6rem;
+  }
+
+  .glass-card {
+    padding: 1rem 0.85rem;
+    border-radius: 14px;
+  }
+
+  .hero-pill {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.7rem;
+  }
+
+  .hero-title {
+    font-size: 1.55rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .persona-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .persona-btn {
+    padding: 0.85rem 0.95rem;
+    gap: 0.65rem;
+  }
+
+  .persona-avatar {
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+  }
+
+  .persona-info strong {
+    font-size: 0.86rem;
+  }
+
+  .persona-info span {
+    font-size: 0.74rem;
+  }
+
+  /* Triad score cards compact grid */
+  .subscale-triad-grid {
+    gap: 0.35rem;
+  }
+
+  .subscale-box {
+    padding: 0.75rem 0.3rem;
+  }
+
+  .subscale-box-title {
+    font-size: 0.68rem;
+  }
+
+  .subscale-box-score {
+    font-size: 1.12rem;
+  }
+
+  .subscale-box-tag {
+    font-size: 0.62rem;
+    padding: 0.15rem 0.35rem;
+  }
+
+  /* Gauge */
+  .svg-gauge-wrap {
+    width: 150px;
+    height: 150px;
+  }
+
+  .gauge-percentage {
+    font-size: 2rem;
+  }
+
+  .triage-status-pill {
+    font-size: 0.85rem;
+    padding: 0.35rem 1.1rem;
+  }
+
+  .triage-display-card {
+    padding: 1.25rem 0.75rem 1rem 0.75rem;
+  }
+
+  /* Rule items */
+  .rule-card {
+    padding: 0.65rem 0.75rem;
+  }
+
+  .rule-top-line {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .rule-title {
+    font-size: 0.8rem;
+  }
+
+  .rule-desc {
+    font-size: 0.75rem;
+  }
+
+  /* Slider */
+  .slider-container {
+    padding: 0.85rem 0.9rem;
+  }
+
+  .slider-title {
+    font-size: 0.8rem;
+  }
+
+  .slider-ticks {
+    font-size: 0.65rem;
+  }
+
+  .action-plan-card {
+    padding: 1rem 0.85rem;
+  }
+
+  .action-plan-title {
+    font-size: 0.88rem;
+  }
+
+  .action-plan-body {
+    font-size: 0.8rem;
+  }
+
+  .action-steps-list {
+    font-size: 0.76rem;
+  }
+
+  #openBenchmarkBtn {
+    font-size: 0.78rem;
+    padding: 0.65rem;
+  }
+
+  .btn-primary-action {
+    padding: 0.95rem;
+    font-size: 0.92rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .subscale-triad-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .subscale-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 0.9rem;
+    text-align: left;
+  }
+
+  .subscale-box-score {
+    margin: 0;
+  }
 }
 
 /* --------------------------------------------------------------------------
