@@ -7,7 +7,6 @@ Focus: Depression & Anxiety Screening using ANN & Fuzzy Logic
 import os
 import joblib
 import numpy as np
-import pandas as pd
 from typing import Dict, Any, Tuple
 from sklearn.neural_network import MLPClassifier, MLPRegressor
 from sklearn.preprocessing import StandardScaler
