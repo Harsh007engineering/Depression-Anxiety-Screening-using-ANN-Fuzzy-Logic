@@ -5,6 +5,7 @@ NeuroFuzzy Clinical Screening Platform
 
 import sys
 import os
+from urllib.parse import urlencode
 
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(CURRENT_DIR)
@@ -16,30 +17,16 @@ from backend.app.main import app
 
 @app.middleware("http")
 async def vercel_path_fix(request: Request, call_next):
-    # Vercel rewrites sometimes pass /api/index.py as the path.
-    # Check headers for the true client requested path.
-    true_path = (
-        request.headers.get("x-matched-path")
-        or request.headers.get("x-forwarded-uri")
-        or request.headers.get("x-original-uri")
-        or request.headers.get("x-invoke-path")
-    )
-    if true_path and (request.scope.get("path") in ["/api/index.py", "/api/index", "/index.py"]):
-        request.scope["path"] = true_path
+    # Retrieve target path forwarded from vercel.json rewrite rule: ?path=/api/...
+    path_override = request.query_params.get("path")
+    if path_override:
+        request.scope["path"] = path_override
+        # Clean query parameters so endpoints receive only genuine client queries
+        query_dict = dict(request.query_params)
+        query_dict.pop("path", None)
+        request.scope["query_string"] = urlencode(query_dict).encode("utf-8")
 
     response = await call_next(request)
     return response
-
-# Catch-all debug endpoint if /api/index.py is directly invoked
-@app.api_route("/api/index.py", methods=["GET", "POST", "OPTIONS"])
-@app.api_route("/index.py", methods=["GET", "POST", "OPTIONS"])
-def debug_endpoint(request: Request):
-    matched = request.headers.get("x-matched-path") or request.headers.get("x-forwarded-uri")
-    return {
-        "status": "online",
-        "scope_path": request.scope.get("path"),
-        "matched_path": matched,
-        "headers": dict(request.headers)
-    }
 
 __all__ = ["app"]
