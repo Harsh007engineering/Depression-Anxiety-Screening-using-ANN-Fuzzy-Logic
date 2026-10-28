@@ -3,14 +3,26 @@
   "version": 2,
   "functions": {
     "api/index.py": {
-      "includeFiles": "backend/**,frontend/**",
+      "includeFiles": "{backend/**,frontend/**,public/**}",
       "maxDuration": 15
     }
   },
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/api/(.*)",
       "destination": "/api/index.py"
+    },
+    {
+      "source": "/docs",
+      "destination": "/api/index.py"
+    },
+    {
+      "source": "/openapi.json",
+      "destination": "/api/index.py"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
